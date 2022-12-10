@@ -13,7 +13,7 @@ namespace AdventOfCode0902
     {
         static void Main(string[] args)
         {
-            //var input = File.ReadAllLines("..\\..\\input1_2.txt").ToList();
+            //var input = File.ReadAllLines("..\\..\\input1.txt").ToList();
             var input = File.ReadAllLines("..\\..\\input2.txt").ToList();
 
             var positions = new List<KeyValuePair<int, int>>();
@@ -58,15 +58,15 @@ namespace AdventOfCode0902
 
                     directions.Add(direction);
 
-                    positionTail1 = MoveTailToHead(positionHead, positionTail1, directions.ElementAt(Math.Max(0, directions.Count - 1)));
-                    positionTail2 = MoveTailToHead(positionTail1, positionTail2, directions.ElementAt(Math.Max(0, directions.Count - 2)));
-                    positionTail3 = MoveTailToHead(positionTail2, positionTail3, directions.ElementAt(Math.Max(0, directions.Count - 3)));
-                    positionTail4 = MoveTailToHead(positionTail3, positionTail4, directions.ElementAt(Math.Max(0, directions.Count - 4)));
-                    positionTail5 = MoveTailToHead(positionTail4, positionTail5, directions.ElementAt(Math.Max(0, directions.Count - 5)));
-                    positionTail6 = MoveTailToHead(positionTail5, positionTail6, directions.ElementAt(Math.Max(0, directions.Count - 6)));
-                    positionTail7 = MoveTailToHead(positionTail6, positionTail7, directions.ElementAt(Math.Max(0, directions.Count - 7)));
-                    positionTail8 = MoveTailToHead(positionTail7, positionTail8, directions.ElementAt(Math.Max(0, directions.Count - 8)));
-                    positionTail9 = MoveTailToHead(positionTail8, positionTail9, directions.ElementAt(Math.Max(0, directions.Count - 9)));
+                    positionTail1 = MoveTailToHead(positionHead, positionTail1);
+                    positionTail2 = MoveTailToHead(positionTail1, positionTail2);
+                    positionTail3 = MoveTailToHead(positionTail2, positionTail3);
+                    positionTail4 = MoveTailToHead(positionTail3, positionTail4);
+                    positionTail5 = MoveTailToHead(positionTail4, positionTail5);
+                    positionTail6 = MoveTailToHead(positionTail5, positionTail6);
+                    positionTail7 = MoveTailToHead(positionTail6, positionTail7);
+                    positionTail8 = MoveTailToHead(positionTail7, positionTail8);
+                    positionTail9 = MoveTailToHead(positionTail8, positionTail9);
 
                     positions.Add(positionTail9);
                 }
@@ -75,42 +75,22 @@ namespace AdventOfCode0902
             var possiblePositions = positions.Distinct().ToList().Count();
 
             // Assert for input1
-            Assert.AreEqual(36, possiblePositions, "Result is not correct");
+            //Assert.AreEqual(36, possiblePositions, "Result is not correct");
 
             Console.WriteLine("Result: " + possiblePositions);
         }
 
-        public static KeyValuePair<int, int> MoveTailToHead(KeyValuePair<int, int> positionHead, KeyValuePair<int, int> positionTail, char direction)
+        // Source: Captain Coder: https://www.youtube.com/watch?v=xP1jHu6rHzA
+        public static KeyValuePair<int, int> MoveTailToHead(KeyValuePair<int, int> positionHead, KeyValuePair<int, int> positionTail)
         {
-            if (!TailIsAdjacentToHead(positionHead, positionTail))
+            if (TailIsAdjacentToHead(positionHead, positionTail))
             {
-                if (!TailIsDiagonalToHead(positionHead, positionTail))
-                {
-                    switch (direction)
-                    {
-                        case 'R':
-                            return new KeyValuePair<int, int>(positionHead.Key - 1, positionHead.Value);
-                        case 'L':
-                            return new KeyValuePair<int, int>(positionHead.Key + 1, positionHead.Value);
-                        case 'U':
-                            return new KeyValuePair<int, int>(positionHead.Key, positionHead.Value - 1);
-                        case 'D':
-                            return new KeyValuePair<int, int>(positionHead.Key, positionHead.Value + 1);
-                        default:
-                            break;
-                    }
-                }
+                return positionTail;
             }
-            return positionTail;
+            var offsetX = FindSign(positionHead.Key - positionTail.Key);
+            var offsetY = FindSign(positionHead.Value - positionTail.Value);
 
-            //if (TailIsAdjacentToHead(positionHead, positionTail))
-            //{
-            //    return positionTail;
-            //}
-            //var offsetX = FindSign(positionHead.Key - positionTail.Key);
-            //var offsetY = FindSign(positionHead.Value - positionTail.Value);
-
-            //return new KeyValuePair<int, int>(positionTail.Key + offsetX, positionTail.Value + offsetY);
+            return new KeyValuePair<int, int>(positionTail.Key + offsetX, positionTail.Value + offsetY);
         }
 
         public static int FindSign(int n)
