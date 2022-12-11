@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FD3F60F3-C7FD-42B6-9B3B-43A8BE67BBDC}</ProjectGuid>
+    <ProjectGuid>{8AE2520B-ACC8-4827-A65E-4D22EDC7786A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>AdventOfCode1001</RootNamespace>
-    <AssemblyName>AdventOfCode1001</AssemblyName>
+    <RootNamespace>AdventOfCode1002</RootNamespace>
+    <AssemblyName>AdventOfCode1002</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

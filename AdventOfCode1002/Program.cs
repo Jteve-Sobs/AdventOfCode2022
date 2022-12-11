@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode1001
+namespace AdventOfCode1002
 {
     internal class Program
     {
+        public static List<char> Screen { get; set; }
+
         private static int m_CycleCounter;
         public static int CycleCounter
         {
@@ -42,28 +44,69 @@ namespace AdventOfCode1001
             var input = File.ReadAllLines("..\\..\\input2.txt").ToList();
 
             CycleCounter = 0;
+            Screen = new List<char>();
 
             foreach (var command in input)
             {
                 if (command == "noop")
                 {
+                    DrawScreen();
                     CycleCounter++;
                 }
                 else if (command.StartsWith("addx "))
                 {
                     var value = Convert.ToInt32(command.Split(' ').Last());
 
+                    DrawScreen();
                     CycleCounter++;
+                    DrawScreen();
                     CycleCounter++;
 
                     Register += value;
                 }
             }
 
-            // Assert for input1
-            //Assert.AreEqual(13140, SignalStrength, "Result is not correct");
+            var screen = String.Join("", Screen);
 
-            Console.WriteLine("Result: " + SignalStrength);
+            var expectedScreen = "##..##..##..##..##..##..##..##..##..##.." +
+                                 "###...###...###...###...###...###...###." +
+                                 "####....####....####....####....####...." +
+                                 "#####.....#####.....#####.....#####....." +
+                                 "######......######......######......####" +
+                                 "#######.......#######.......#######.....";
+
+            // Assert for input1
+            //Assert.AreEqual(expectedScreen, screen, "Result is not correct");
+
+            Console.WriteLine("Result: ");
+            for (int i = 0; i < screen.Length; i++)
+            {
+                if (i % 40 == 0)
+                {
+                    Console.Write("\r\n");
+                }
+                Console.Write(screen.ElementAt(i));
+            }
+
+            ;
+        }
+
+        public static void DrawScreen()
+        {
+            var symbol = ' ';
+            if (CycleCounter % 40 == Register - 1
+                || CycleCounter % 40 == Register
+                || CycleCounter % 40 == Register + 1
+            )
+            {
+                symbol = '#';
+            }
+            else
+            {
+                symbol = '.';
+            }
+
+            Screen.Add(symbol);
         }
     }
 }
